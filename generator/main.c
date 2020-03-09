@@ -66,6 +66,8 @@ void perfect_maze(char **maze, long size_x, long size_y)
                 maze[(random) ? i : i - 1][(random) ? j - 1 : j] = '*';
         }
     }
+    if (size_y % 2 || size_x % 2)
+        return;
     size_y--;
     size_x--;
     random = rand() % 2;
@@ -97,6 +99,8 @@ int main(int argc, char const *argv[])
         write(1, maze[i], settings.size_x);
         if (i != settings.size_y - 1)
             write(1, "\n", 1);
+        free(maze[i]);
     }
+    free(maze);
     return 0;
 }
