@@ -55,12 +55,10 @@ int alloc_maze(char ***maze, long size_x, long size_y)
 void perfect_maze(char **maze, long size_x, long size_y)
 {
     int random;
-    int index = 0;
 
     for (int i = 0; i < size_y; i += 2) {
         for (int j = 0; j < size_x; j += 2) {
             maze[i][j] = '*';
-            index++;
             random = rand() % 2;
             if (0 == i || 0 == j)
                 maze[(0 == i) ? i : i - 1][(0 == j) ? j : j - 1] = '*';
@@ -76,18 +74,10 @@ void perfect_maze(char **maze, long size_x, long size_y)
 
 void imperfect_maze(char **maze, long size_x, long size_y)
 {
-    int random = 1;
-
-    for (int i = 0; i < size_x - 2; i++) {
-        if ('X' == maze[size_y - 2][i]) {
-            if (random) {
-                maze[size_y - 1][i - 1] = '*';
-                maze[size_y - 1][i] = '*';
-                maze[size_y - 1][i + 1] = '*';
-            }
-            random = rand() % 2;
-        }
-    }
+    for (int i = 1; i < size_y; i += 2)
+        for (int j = 0; j < size_x; j += 2)
+            if ('X' == maze[i][j] && rand() % 2)
+                maze[i][j] = '*';
 }
 
 int main(int argc, char const *argv[])
