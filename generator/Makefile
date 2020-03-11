@@ -8,5 +8,7 @@
 OBJS	=	./main.o
 
 CFLAGS	=	-I ./include
+CFLAGS	+=	-Wall -Wextra
+CFLAGS	+=	-g3
 
 $(OBJS): ./include/settings.h
