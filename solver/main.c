@@ -72,12 +72,11 @@ void fill_int_maze(int **maze_int, int size_y, int size_x)
 {
     int i = 0;
     int j = 0;
-    backup_t backup;
+    backup_t *backup = NULL;
 
+    maze_int[i][j] = 1;
     int tmp = 50;
     while (tmp--) {
-        if (!i && !j)
-            maze_int[i][j] = 0;
         if (i < size_y - 1 && (!maze_int[i + 1][j] || maze_int[i][j] + 1 < maze_int[i + 1][j])) {
             maze_int[i + 1][j] = maze_int[i][j] + 1;
             i++;
@@ -97,8 +96,8 @@ void fill_int_maze(int **maze_int, int size_y, int size_x)
             maze_int[i][j - 1] = maze_int[i][j] + 1;
             j--;
             continue;
+        create_element(backup, i, j);
         }
-        create_element(&backup, i, j);
     }
 }
 
@@ -122,7 +121,7 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < size_y; i++) {
         for(int j = 0; j < size_x; j++)
             printf("% d", maze_int[i][j]);
-        printf("\n");
+    printf("\n");
     }
     free(*maze);
     free(maze);
