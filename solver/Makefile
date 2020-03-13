@@ -5,24 +5,13 @@
 ## Makefile
 ##
 
-SRC =	main.c	\
-		linked_list.c
+#CC	=	gcc
 
-OBJ =	$(SRC:.c=.o)
+CFLAGS	=	-I ./include
+CFLAGS	+=	-Wall -Wextra
 
-NAME =	solver
+OBJS	=	$(patsubst %.c,%.o,$(wildcard *.c))
 
-CFLAGS = -I./include
+all:	$(OBJS)
 
-all: $(NAME)
-
-$(NAME):	$(OBJ)
-	gcc -o $(NAME) $(OBJ)
-
-clean:
-	rm -f $(OBJ)
-fclean: clean
-	rm -f $(NAME)
-re:	fclean all
-
-.PHONY: all clean fclean re
+$(OBJS):	./include/linked_list.h

@@ -5,22 +5,23 @@
 ## Makefile
 ##
 
-NAMEGEN	=	generator
-NAMESOLV	=	solver
+CC	=	gcc
 
 all: gen solv
 
 gen:
-	$(MAKE) -s -C ./generator/
+	$(MAKE) -C ./generator/ -o generator
+	$(CC) -o ./generator/generator $(patsubst %.c, %.o, $(wildcard ./generator/*.c))
 
 solv:
-	$(MAKE) -s -C ./solver/
+	$(MAKE) -C ./solver/ -o solver
+	$(CC) -o ./solver/solver $(patsubst %.c, %.o, $(wildcard ./solver/*.c))
 
 clean:
 	find -name "*.o" -delete
 
 fclean: clean
-	rm -fr ./generator/$(NAMEGEN) ./solver/$(NAMESOLV)
+	rm -fr ./generator/generator ./solver/solver
 
 re: fclean all
 

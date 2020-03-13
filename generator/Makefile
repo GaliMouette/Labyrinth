@@ -4,23 +4,14 @@
 ## File description:
 ## Makefile
 ##
-SRC =	main.c
 
-OBJ =	$(SRC:.c=.o)
+CC	=	gcc
 
-NAME =	generator
+CFLAGS	=	-I ./include
+CFLAGS	+=	-Wall -Wextra
 
-CFLAGS = -I./include
+OBJS	=	$(patsubst %.c,%.o,$(wildcard *.c))
 
-all: $(NAME)
+all:	$(OBJS)
 
-$(NAME):	$(OBJ)
-	gcc -o $(NAME) $(OBJ)
-
-clean:
-	rm -f $(OBJ)
-fclean: clean
-	rm -f $(NAME)
-re:	fclean all
-
-.PHONY: all clean fclean re
+$(OBJS):	./include/settings.h
