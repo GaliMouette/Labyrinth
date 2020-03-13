@@ -52,20 +52,43 @@ int is_maze_correct(char **maze, int size_x, int size_y)
     return 1;
 }
 
+int alloc_int_maze(int ***maze_int, char **maze, int size_x, int size_y)
+{
+    *maze_int = malloc(sizeof(int *) * (size_y));
+    if (!*maze_int)
+        return 1;
+    for (int i = 0; i < size_y; i++) {
+        (*maze_int)[i] = malloc(sizeof(int) * (size_x));
+        if (!(*maze_int)[i])
+            return 1;
+        for (int j = 0; j < size_x; j++)
+            (*maze_int)[i][j] = -('X' == maze[i][j]);
+    }
+    return 0;
+}
+
 int main(int argc, char const *argv[])
 {
     FILE *file;
     char **maze;
+    int **maze_int;
     int size_x, size_y;
 
     if (parse_arguments(argc, argv, &file))
         return 84;
     if (get_maze(file, &maze, &size_x, &size_y))
         return 84;
+    fclose(file);
     if (!is_maze_correct(maze, size_x, size_y))
         return 84;
+    if (alloc_int_maze(&maze_int, maze, size_x, size_y))
+        return 84;
+    for (int i = 0; i < size_y; i++) {
+        for(int j = 0; j < size_x; j++)
+            printf("% d", maze_int[i][j]);
+        printf("\n");
+    }
     free(*maze);
     free(maze);
-    fclose(file);
     return 0;
 }
