@@ -5,9 +5,24 @@
 ## Makefile
 ##
 
-OBJS	=	./main.o
+SRC =	main.c	\
+		linked_list.c
 
-CFLAGS	=	-Wall -Wextra
-CFLAGS	+=	-g3
+OBJ =	$(SRC:.c=.o)
 
-$(OBJS):
+NAME =	solver
+
+CFLAGS = -I./include
+
+all: $(NAME)
+
+$(NAME):	$(OBJ)
+	gcc -o $(NAME) $(OBJ)
+
+clean:
+	rm -f $(OBJ)
+fclean: clean
+	rm -f $(NAME)
+re:	fclean all
+
+.PHONY: all clean fclean re

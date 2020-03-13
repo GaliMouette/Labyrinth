@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "linked_list.h"
 
 int parse_arguments(int argc, char const *argv[], FILE **file)
 {
@@ -67,6 +68,40 @@ int alloc_int_maze(int ***maze_int, char **maze, int size_x, int size_y)
     return 0;
 }
 
+void fill_int_maze(int **maze_int, int size_y, int size_x)
+{
+    int i = 0;
+    int j = 0;
+    backup_t backup;
+
+    int tmp = 50;
+    while (tmp--) {
+        if (!i && !j)
+            maze_int[i][j] = 0;
+        if (i < size_y - 1 && (!maze_int[i + 1][j] || maze_int[i][j] + 1 < maze_int[i + 1][j])) {
+            maze_int[i + 1][j] = maze_int[i][j] + 1;
+            i++;
+            continue;
+        }
+        if (j < size_x - 1 && (!maze_int[i][j + 1] || maze_int[i][j] + 1 < maze_int[i][j + 1])) {
+            maze_int[i][j + 1] = maze_int[i][j] + 1;
+            j++;
+            continue;
+        }
+        if (i && (!maze_int[i - 1][j] || maze_int[i][j] + 1 < maze_int[i - 1][j])) {
+            maze_int[i - 1][j] = maze_int[i][j] + 1;
+            i--;
+            continue;
+        }
+        if (j && (!maze_int[i][j - 1] || maze_int[i][j] + 1 < maze_int[i][j - 1])) {
+            maze_int[i][j - 1] = maze_int[i][j] + 1;
+            j--;
+            continue;
+        }
+        create_element(&backup, i, j);
+    }
+}
+
 int main(int argc, char const *argv[])
 {
     FILE *file;
@@ -83,6 +118,7 @@ int main(int argc, char const *argv[])
         return 84;
     if (alloc_int_maze(&maze_int, maze, size_x, size_y))
         return 84;
+    fill_int_maze(maze_int, size_y, size_x);
     for (int i = 0; i < size_y; i++) {
         for(int j = 0; j < size_x; j++)
             printf("% d", maze_int[i][j]);

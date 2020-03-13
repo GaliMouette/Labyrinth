@@ -4,11 +4,23 @@
 ## File description:
 ## Makefile
 ##
+SRC =	main.c
 
-OBJS	=	./main.o
+OBJ =	$(SRC:.c=.o)
 
-CFLAGS	=	-I ./include
-CFLAGS	+=	-Wall -Wextra
-CFLAGS	+=	-g3
+NAME =	generator
 
-$(OBJS): ./include/settings.h
+CFLAGS = -I./include
+
+all: $(NAME)
+
+$(NAME):	$(OBJ)
+	gcc -o $(NAME) $(OBJ)
+
+clean:
+	rm -f $(OBJ)
+fclean: clean
+	rm -f $(NAME)
+re:	fclean all
+
+.PHONY: all clean fclean re
