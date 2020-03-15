@@ -72,10 +72,14 @@ int multiple_paths(int **maze_int, int pos[2], int size[2])
 {
     int paths = 0;
 
-    paths += (pos[0]) ? !maze_int[pos[0] - 1][pos[1]] : 0;
-    paths += (pos[1]) ? !maze_int[pos[0]][pos[1] - 1] : 0;
-    paths += (pos[0] < size[0] - 1) ? !maze_int[pos[0] + 1][pos[1]] : 0;
-    paths += (pos[1] < size[0] - 1) ? !maze_int[pos[0]][pos[1] + 1] : 0;
+    paths += (pos[0]) ? !maze_int[pos[0] - 1][pos[1]] \
+    || maze_int[pos[0]][pos[1]] + 1 < maze_int[pos[0] - 1][pos[1]] : 0;
+    paths += (pos[1]) ? !maze_int[pos[0]][pos[1] - 1] \
+    || maze_int[pos[0]][pos[1]] + 1 < maze_int[pos[0]][pos[1] - 1] : 0;
+    paths += (pos[0] < size[0] - 1) ? !maze_int[pos[0] + 1][pos[1]] \
+    || maze_int[pos[0]][pos[1]] + 1 < maze_int[pos[0] + 1][pos[1]] : 0;
+    paths += (pos[1] < size[1] - 1) ? !maze_int[pos[0]][pos[1] + 1] \
+    || maze_int[pos[0]][pos[1]] + 1 < maze_int[pos[0]][pos[1] + 1] : 0;
     return paths > 1;
 }
 
@@ -83,17 +87,17 @@ void fill_int_maze(int **maze_int, int size_y, int size_x)
 {
     int i = 0;
     int j = 0;
-    backup_t *backup = add_element(NULL, i, j);
+    backup_t *backup = add_element(NULL, 0, 0);
 
     if (-1 == maze_int[i][j])
         return;
-    maze_int[i][j] = 1;
+    maze_int[0][0] = 1;
     while (backup) {
-        if (multiple_paths(maze_int, (int [2]){i, j}, (int [2]){size_y, size_x}))
+        if (multiple_paths(maze_int, (int[2]){i, j}, (int[2]){size_y, size_x}))
             backup = add_element(backup, i, j);
-        if (i < size_y - 1 && (!maze_int[i + 1][j] || maze_int[i][j] + 1 < maze_int[i + 1][j])) {
-            maze_int[i + 1][j] = maze_int[i][j] + 1;
-            i++;
+        if (i && (!maze_int[i - 1][j] || maze_int[i][j] + 1 < maze_int[i - 1][j])) {
+            maze_int[i - 1][j] = maze_int[i][j] + 1;
+            i--;
             continue;
         }
         if (j < size_x - 1 && (!maze_int[i][j + 1] || maze_int[i][j] + 1 < maze_int[i][j + 1])) {
@@ -101,9 +105,9 @@ void fill_int_maze(int **maze_int, int size_y, int size_x)
             j++;
             continue;
         }
-        if (i && (!maze_int[i - 1][j] || maze_int[i][j] + 1 < maze_int[i - 1][j])) {
-            maze_int[i - 1][j] = maze_int[i][j] + 1;
-            i--;
+        if (i < size_y - 1 && (!maze_int[i + 1][j] || maze_int[i][j] + 1 < maze_int[i + 1][j])) {
+            maze_int[i + 1][j] = maze_int[i][j] + 1;
+            i++;
             continue;
         }
         if (j && (!maze_int[i][j - 1] || maze_int[i][j] + 1 < maze_int[i][j - 1])) {
@@ -132,12 +136,5 @@ int main(int argc, char const *argv[])
     if (alloc_int_maze(&maze_int, maze, size_x, size_y))
         return 84;
     fill_int_maze(maze_int, size_y, size_x);
-    for (int i = 0; i < size_y; i++) {
-        for(int j = 0; j < size_x; j++)
-            printf("% .2d", maze_int[i][j]);
-    printf("\n");
-    }
-    free(*maze);
-    free(maze);
     return 0;
 }
