@@ -12,7 +12,8 @@ void display_maze(char **maze, int size_y, int size_x)
     for (int a = 0; a != size_y; a++) {
         for (int b = 0; b != size_x; b++)
             printf("%c", maze[a][b]);
-        printf("%s", "\n");
+        if (a != size_y - 1)
+            printf("%s", "\n");
     }
 }
 
