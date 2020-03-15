@@ -68,15 +68,29 @@ int alloc_int_maze(int ***maze_int, char **maze, int size_x, int size_y)
     return 0;
 }
 
+int multiple_paths(int **maze_int, int pos[2], int size[2])
+{
+    int paths = 0;
+
+    paths += (pos[0]) ? !maze_int[pos[0] - 1][pos[1]] : 0;
+    paths += (pos[1]) ? !maze_int[pos[0]][pos[1] - 1] : 0;
+    paths += (pos[0] < size[0] - 1) ? !maze_int[pos[0] + 1][pos[1]] : 0;
+    paths += (pos[1] < size[0] - 1) ? !maze_int[pos[0]][pos[1] + 1] : 0;
+    return paths > 1;
+}
+
 void fill_int_maze(int **maze_int, int size_y, int size_x)
 {
     int i = 0;
     int j = 0;
-    backup_t *backup = NULL;
+    backup_t *backup = add_element(NULL, i, j);
 
+    if (-1 == maze_int[i][j])
+        return;
     maze_int[i][j] = 1;
-    int tmp = 50;
-    while (tmp--) {
+    while (backup) {
+        if (multiple_paths(maze_int, (int [2]){i, j}, (int [2]){size_y, size_x}))
+            backup = add_element(backup, i, j);
         if (i < size_y - 1 && (!maze_int[i + 1][j] || maze_int[i][j] + 1 < maze_int[i + 1][j])) {
             maze_int[i + 1][j] = maze_int[i][j] + 1;
             i++;
@@ -96,8 +110,8 @@ void fill_int_maze(int **maze_int, int size_y, int size_x)
             maze_int[i][j - 1] = maze_int[i][j] + 1;
             j--;
             continue;
-        create_element(backup, i, j);
         }
+        backup = pop_element(backup, &i, &j);
     }
 }
 
@@ -120,7 +134,7 @@ int main(int argc, char const *argv[])
     fill_int_maze(maze_int, size_y, size_x);
     for (int i = 0; i < size_y; i++) {
         for(int j = 0; j < size_x; j++)
-            printf("% d", maze_int[i][j]);
+            printf("% .2d", maze_int[i][j]);
     printf("\n");
     }
     free(*maze);

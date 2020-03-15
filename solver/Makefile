@@ -9,6 +9,7 @@
 
 CFLAGS	=	-I ./include
 CFLAGS	+=	-Wall -Wextra
+CFLAGS	+=	-g3
 
 OBJS	=	$(patsubst %.c,%.o,$(wildcard *.c))
 

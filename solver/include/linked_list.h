@@ -14,6 +14,7 @@ typedef struct backup{
     struct backup *next;
 } backup_t;
 
-backup_t *create_element(backup_t *backup, int i, int j);
+backup_t *add_element(backup_t *backup, int i, int j);
+backup_t *pop_element(backup_t *backup, int *i, int *j);
 
 #endif
