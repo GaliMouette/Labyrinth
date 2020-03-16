@@ -66,7 +66,7 @@ int **fill_int_maze(int **maze_int, int size_y, int size_x)
     backup_t *backup = add_element(NULL, 0, 0);
 
     if (-1 == maze_int[i][j])
-        return;
+        return NULL;
     maze_int[0][0] = 1;
     while (backup) {
         if (multiple_paths(maze_int, (int[2]){i, j}, (int[2]){size_y, size_x}))
