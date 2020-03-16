@@ -37,26 +37,27 @@ int multiple_paths(int **maze_int, int pos[2], int size[2])
     return paths > 1;
 }
 
-void fill_int_maze_next(int ***maze_int, int size[2], int *i, int *j)
+int **fill_int_maze_next(int **maze_int, int size[2], int *i, int *j)
 {
-    if ((*j) < size[0] - 1 && (!(*maze_int)[(*i)][(*j) + 1]
-    || (*maze_int)[(*i)][(*j)] + 1 < (*maze_int)[(*i)][(*j) + 1])) {
-        (*maze_int)[(*i)][(*j) + 1] = (*maze_int)[(*i)][(*j)] + 1;
-        (*j) = (*j) + 1;
-        return;
+    if (*j < size[0] - 1 && (!maze_int[*i][(*j) + 1]
+    || maze_int[*i][*j] + 1 < maze_int[*i][(*j) + 1])) {
+        maze_int[*i][(*j) + 1] = (maze_int[*i][*j] + 1);
+        j++;
+        return (maze_int);
     }
-    if ((*i) < size[1] - 1 && (!(*maze_int)[(*i) + 1][(*j)]
-    || (*maze_int)[(*i)][(*j)] + 1 < (*maze_int)[(*i) + 1][(*j)])) {
-        (*maze_int)[(*i) + 1][(*j)] = (*maze_int)[(*i)][(*j)] + 1;
-        (*i) = (*i) + 1;
-        return;
+    if (*i < size[1] - 1 && (!maze_int[(*i) + 1][*j]
+    || maze_int[*i][*j] + 1 < maze_int[(*i) + 1][*j])) {
+        maze_int[(*i) + 1][*j] = (maze_int[*i][*j] + 1);
+        i++;
+        return (maze_int);
     }
-    if ((*j) && (!(*maze_int)[(*i)][(*j) - 1]
-    || (*maze_int)[(*i)][(*j)] + 1 < (*maze_int)[(*i)][(*j) - 1])) {
-        (*maze_int)[(*i)][(*j) - 1] = (*maze_int)[(*i)][(*j)] + 1;
-        (*j) = (*j) - 1;
-        return;
+    if (j && (!maze_int[*i][(*j) - 1]
+    || maze_int[*i][*j] + 1 < maze_int[*i][(*j) - 1])) {
+        maze_int[*i][(*j) - 1] = (maze_int[*i][*j] + 1);
+        j--;
+        return (maze_int);
     }
+    return (maze_int);
 }
 
 int **fill_int_maze(int **maze_int, int size_y, int size_x)
@@ -95,7 +96,7 @@ int **fill_int_maze(int **maze_int, int size_y, int size_x)
             j--;
             continue;
         }
-        //fill_int_maze_next(&maze_int, (int[2]){size_x, size_y}, &i, &j);
+        //maze_int = fill_int_maze_next(maze_int, (int[2]){size_x, size_y}, &i, &j);
         backup = pop_element(backup, &i, &j);
     }
     // for (int a = 0; a != size_y; a++) {

@@ -17,6 +17,19 @@ void display_maze(char **maze, int size_y, int size_x)
     }
 }
 
+char **make_way_next(char **maze, int **maze_int, int *i, int *j)
+{
+    if (i && (maze_int[*j][(*i) + 1] == (maze_int[*j][*i] - 1))) {
+        i++;
+        maze[*j][*i] = 'o';
+    }
+    if (j && (maze_int[(*j) + 1][*i] == (maze_int[*j][*i] - 1))) {
+        j++;
+        maze[*j][*i] = 'o';
+    }
+    return (maze);
+}
+
 int make_way(char **maze, int **maze_int, int size_y, int size_x)
 {
     int j = size_y - 1;
@@ -34,14 +47,7 @@ int make_way(char **maze, int **maze_int, int size_y, int size_x)
             j--;
             maze[j][i] = 'o';
         }
-        if (i && (maze_int[j][i + 1] == (maze_int[j][i] - 1))) {
-            i++;
-            maze[j][i] = 'o';
-        }
-        if (j && (maze_int[j + 1][i] == (maze_int[j][i] - 1))) {
-            j++;
-            maze[j][i] = 'o';
-        }
+        maze = make_way_next(maze, maze_int, &i, &j);
     }
     display_maze(maze, size_y, size_x);
     return 0;
