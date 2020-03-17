@@ -10,8 +10,7 @@
 void display_maze(char **maze, int size_y, int size_x)
 {
     for (int a = 0; a != size_y; a++) {
-        for (int b = 0; b != size_x; b++)
-            printf("%c", maze[a][b]);
+        write(1, maze[a], size_x);
         if (a != size_y - 1)
             printf("%s", "\n");
     }
@@ -19,12 +18,12 @@ void display_maze(char **maze, int size_y, int size_x)
 
 char **make_way_next(char **maze, int **maze_int, int *i, int *j)
 {
-    if (i && (maze_int[*j][(*i) + 1] == (maze_int[*j][*i] - 1))) {
-        i++;
+    if (*i && (maze_int[*j][(*i) + 1] == (maze_int[*j][*i] - 1))) {
+        *i += 1;
         maze[*j][*i] = 'o';
     }
-    if (j && (maze_int[(*j) + 1][*i] == (maze_int[*j][*i] - 1))) {
-        j++;
+    if (*j && (maze_int[(*j) + 1][*i] == (maze_int[*j][*i] - 1))) {
+        *j += 1;
         maze[*j][*i] = 'o';
     }
     return (maze);
