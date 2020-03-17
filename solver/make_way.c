@@ -12,7 +12,7 @@ void display_maze(char **maze, int size_y, int size_x)
     for (int a = 0; a != size_y; a++) {
         write(1, maze[a], size_x);
         if (a != size_y - 1)
-            printf("%s", "\n");
+            write(1, "\n", 1);
     }
 }
 
