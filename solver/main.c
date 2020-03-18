@@ -53,6 +53,15 @@ int is_maze_correct(char **maze, int size_x, int size_y)
     return 1;
 }
 
+void free_mazes(char **maze, int **maze_int, int size_y)
+{
+    free(*maze);
+    free(maze);
+    for (int i = 0; i < size_y; i++)
+        free(maze_int[i]);
+    free(maze_int);
+}
+
 int main(int argc, char const *argv[])
 {
     FILE *file;
@@ -73,5 +82,6 @@ int main(int argc, char const *argv[])
     if (0 >= maze_int[size_y - 1][size_x - 1]
     ||  make_way(maze, maze_int, size_y, size_x) == 1)
         write(1, "no solution found\n", 19);
+    free_mazes(maze, maze_int, size_y);
     return 0;
 }
