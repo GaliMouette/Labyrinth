@@ -37,37 +37,37 @@ int multiple_paths(int **maze_int, int pos[2], int size[2])
     return paths > 1;
 }
 
-int fill_int_maze_next(int ***maze_int, int size[2], int *i, int *j)
+int fill_int_maze_next(int **maze_int, int size[2], int *i, int *j)
 {
-    if (*j < size[0] - 1 && (!(*maze_int)[*i][(*j) + 1]
-    || (*maze_int)[*i][*j] + 1 < (*maze_int)[*i][(*j) + 1])) {
-        (*maze_int)[*i][(*j) + 1] = (*maze_int)[*i][*j] + 1;
+    if (*j < size[0] - 1 && (!maze_int[*i][(*j) + 1]
+    || maze_int[*i][*j] + 1 < maze_int[*i][(*j) + 1])) {
+        maze_int[*i][(*j) + 1] = maze_int[*i][*j] + 1;
         *j += 1;
         return (1);
     }
-    if (*i < size[1] - 1 && (!(*maze_int)[(*i) + 1][*j]
-    || (*maze_int)[*i][*j] + 1 < (*maze_int)[(*i) + 1][*j])) {
-        (*maze_int)[(*i) + 1][*j] = (*maze_int)[*i][*j] + 1;
+    if (*i < size[1] - 1 && (!maze_int[(*i) + 1][*j]
+    || maze_int[*i][*j] + 1 < maze_int[(*i) + 1][*j])) {
+        maze_int[(*i) + 1][*j] = maze_int[*i][*j] + 1;
         *i += 1;
         return (1);
     }
-    if (*j && (!(*maze_int)[*i][(*j) - 1]
-    || (*maze_int)[*i][*j] + 1 < (*maze_int)[*i][(*j) - 1])) {
-        (*maze_int)[*i][(*j) - 1] = (*maze_int)[*i][*j] + 1;
+    if (*j && (!maze_int[*i][(*j) - 1]
+    || maze_int[*i][*j] + 1 < maze_int[*i][(*j) - 1])) {
+        maze_int[*i][(*j) - 1] = maze_int[*i][*j] + 1;
         *j -= 1;
         return (1);
     }
     return (0);
 }
 
-int **fill_int_maze(int **maze_int, int size_y, int size_x)
+void fill_int_maze(int **maze_int, int size_y, int size_x)
 {
     int i = 0;
     int j = 0;
     backup_t *backup = add_element(NULL, 0, 0);
 
     if (-1 == maze_int[i][j])
-        return NULL;
+        return;
     maze_int[0][0] = 1;
     while (backup) {
         if (multiple_paths(maze_int, (int[2]){i, j}, (int[2]){size_y, size_x}))
@@ -78,10 +78,9 @@ int **fill_int_maze(int **maze_int, int size_y, int size_x)
             i--;
             continue;
         }
-        if (fill_int_maze_next(&maze_int, (int[2]){size_x, size_y}, &i, &j)
+        if (fill_int_maze_next(maze_int, (int[2]){size_x, size_y}, &i, &j)
         != 0)
             continue;
         backup = pop_element(backup, &i, &j);
     }
-    return (maze_int);
 }
