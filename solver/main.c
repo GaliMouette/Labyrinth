@@ -70,7 +70,7 @@ int main(int argc, char const *argv[])
     if (alloc_int_maze(&maze_int, maze, size_x, size_y))
         return 84;
     fill_int_maze(maze_int, size_y, size_x);
-    if (!maze_int[size_y - 1][size_x - 1]
+    if (1 > maze_int[size_y - 1][size_x - 1]
     ||  make_way(maze, maze_int, size_y, size_x) == 1)
         write(1, "no solution found\n", 19);
     return 0;
