@@ -13,8 +13,8 @@
 #include <unistd.h>
 
 typedef struct path{
-    int pos_x;
-    int pos_y;
+    int x;
+    int y;
     struct path *next;
 } path_t;
 
@@ -22,8 +22,9 @@ typedef struct path{
 path_t *add_element(path_t *path, int y, int x);
 path_t *pop_element(path_t *path);
 
-//file / make_way.c
+//file / find_path.c
 void display_maze(char **maze, int size_y, int size_x);
 void find_path(char **maze, path_t **path, int size_y, int size_x);
+void replace_char(char **maze, path_t *path, int size_y, int size_x);
 
 #endif

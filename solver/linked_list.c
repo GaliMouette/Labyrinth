@@ -12,8 +12,8 @@ path_t *add_element(path_t *path, int y, int x)
 {
     path_t *elem = malloc(sizeof(path_t));
 
-    elem->pos_y = y;
-    elem->pos_x = x;
+    elem->y = y;
+    elem->x = x;
     elem->next = path;
     return elem;
 }

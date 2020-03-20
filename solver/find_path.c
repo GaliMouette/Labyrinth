@@ -21,7 +21,7 @@ void replace_char(char **maze, path_t *path, int size_y, int size_x)
     path_t *tmp;
 
     while (path) {
-        maze[path->pos_y][path->pos_x] = 'o';
+        maze[path->y][path->x] = 'o';
         tmp = path;
         path = path->next;
         free(tmp);
@@ -32,25 +32,25 @@ void replace_char(char **maze, path_t *path, int size_y, int size_x)
                 maze[i][j] = '*';
 }
 
-void find_path(char **maze, path_t **path, int size_y, int size_x)
+void find_path(char **maze, path_t **path, int y, int x)
 {
-    while ((*path) && ((*path)->pos_y < size_y && (*path)->pos_x < size_x)) {
-        maze[(*path)->pos_y][(*path)->pos_x] = ' ';
-        if ((*path)->pos_y == size_y - 1 && (*path)->pos_x == size_x - 1) return;
-        if ((*path)->pos_y < size_y - 1 && maze[(*path)->pos_y + 1][(*path)->pos_x] == '*') {
-            (*path) = add_element((*path), (*path)->pos_y + 1, (*path)->pos_x);
+    while ((*path) && ((*path)->y < y && (*path)->x < x)) {
+        maze[(*path)->y][(*path)->x] = ' ';
+        if ((*path)->y == y - 1 && (*path)->x == x - 1) return;
+        if ((*path)->y < y - 1 && maze[(*path)->y + 1][(*path)->x] == '*') {
+            (*path) = add_element((*path), (*path)->y + 1, (*path)->x);
             continue;
         }
-        if ((*path)->pos_x < size_x - 1 && maze[(*path)->pos_y][(*path)->pos_x + 1] == '*') {
-            (*path) = add_element((*path), (*path)->pos_y, (*path)->pos_x + 1);
+        if ((*path)->x < x - 1 && maze[(*path)->y][(*path)->x + 1] == '*') {
+            (*path) = add_element((*path), (*path)->y, (*path)->x + 1);
             continue;
         }
-        if ((*path)->pos_y && maze[(*path)->pos_y - 1][(*path)->pos_x] == '*') {
-            (*path) = add_element((*path), (*path)->pos_y - 1, (*path)->pos_x);
+        if ((*path)->y && maze[(*path)->y - 1][(*path)->x] == '*') {
+            (*path) = add_element((*path), (*path)->y - 1, (*path)->x);
             continue;
         }
-        if ((*path)->pos_x && maze[(*path)->pos_y][(*path)->pos_x - 1] == '*') {
-            (*path) = add_element((*path), (*path)->pos_y, (*path)->pos_x - 1);
+        if ((*path)->x && maze[(*path)->y][(*path)->x - 1] == '*') {
+            (*path) = add_element((*path), (*path)->y, (*path)->x - 1);
             continue;
         }
         (*path) = pop_element((*path));
