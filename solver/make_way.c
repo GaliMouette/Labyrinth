@@ -9,7 +9,7 @@
 
 void display_maze(char **maze, int size_y, int size_x)
 {
-    for (int a = 0; a != size_y; a++) {
+    for (int a = 0; a < size_y; a++) {
         write(1, maze[a], size_x);
         if (a != size_y - 1)
             write(1, "\n", 1);
@@ -49,5 +49,6 @@ int make_way(char **maze, int **maze_int, int size_y, int size_x)
         maze = make_way_next(maze, maze_int, &i, &j);
     }
     display_maze(maze, size_y, size_x);
+    free_mazes(maze, maze_int, size_y);
     return 0;
 }
