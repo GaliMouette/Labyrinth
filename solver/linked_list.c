@@ -8,23 +8,21 @@
 #include "linked_list.h"
 #include <stdlib.h>
 
-backup_t *add_element(backup_t *backup, int i, int j)
+path_t *add_element(path_t *path, int y, int x)
 {
-    backup_t *elem = malloc(sizeof(backup_t));
+    path_t *elem = malloc(sizeof(path_t));
 
-    elem->pos_y = i;
-    elem->pos_x = j;
-    elem->next = backup;
+    elem->pos_y = y;
+    elem->pos_x = x;
+    elem->next = path;
     return elem;
 }
 
-backup_t *pop_element(backup_t *backup, int *i, int *j)
+path_t *pop_element(path_t *path)
 {
-    backup_t *tmp = backup;
+    path_t *tmp = path;
 
-    *i = backup->pos_y;
-    *j = backup->pos_x;
-    backup = backup->next;
+    path = path->next;
     free(tmp);
-    return backup;
+    return path;
 }
