@@ -19,7 +19,7 @@ int parse_arguments(int argc, char const *argv[], FILE **file)
     fseek(*file, 0, SEEK_END);
     return 0;
 }
- 
+
 int get_maze(FILE *file, char ***maze, int *size_x, int *size_y)
 {
     int file_len = ftell(file);
@@ -53,6 +53,14 @@ int is_maze_correct(char **maze, int size_x, int size_y)
     return 1;
 }
 
+void display_solution(char **maze, int size_y, int size_x)
+{
+    if ('o' == maze[size_y - 1][size_x - 1])
+        display_maze(maze, size_y, size_x);
+    else
+        write(1, "no solution found", 17);
+}
+
 int main(int argc, char const *argv[])
 {
     FILE *file;
@@ -70,8 +78,7 @@ int main(int argc, char const *argv[])
     if ('*' == maze[0][0])
         find_path(maze, &path, size_y, size_x);
     replace_char(maze, path, size_y, size_x);
-    if ('o' == maze[size_y - 1][size_x - 1]) display_maze(maze, size_y, size_x);
-    else write(1, "no solution found", 17);
+    display_solution(maze, size_y, size_x);
     free(*maze);
     free(maze);
     return 0;

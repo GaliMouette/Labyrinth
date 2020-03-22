@@ -36,20 +36,18 @@ void find_path(char **maze, path_t **path, int y, int x)
 {
     while ((*path) && ((*path)->y < y && (*path)->x < x)) {
         maze[(*path)->y][(*path)->x] = ' ';
-        if ((*path)->y == y - 1 && (*path)->x == x - 1) return;
+        if ((*path)->y == y - 1 && (*path)->x == x - 1)
+            return;
         if ((*path)->y < y - 1 && maze[(*path)->y + 1][(*path)->x] == '*') {
             (*path) = add_element((*path), (*path)->y + 1, (*path)->x);
             continue;
-        }
-        if ((*path)->x < x - 1 && maze[(*path)->y][(*path)->x + 1] == '*') {
+        } if ((*path)->x < x - 1 && maze[(*path)->y][(*path)->x + 1] == '*') {
             (*path) = add_element((*path), (*path)->y, (*path)->x + 1);
             continue;
-        }
-        if ((*path)->y && maze[(*path)->y - 1][(*path)->x] == '*') {
+        } if ((*path)->y && maze[(*path)->y - 1][(*path)->x] == '*') {
             (*path) = add_element((*path), (*path)->y - 1, (*path)->x);
             continue;
-        }
-        if ((*path)->x && maze[(*path)->y][(*path)->x - 1] == '*') {
+        } if ((*path)->x && maze[(*path)->y][(*path)->x - 1] == '*') {
             (*path) = add_element((*path), (*path)->y, (*path)->x - 1);
             continue;
         }
