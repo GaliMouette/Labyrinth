@@ -5,24 +5,30 @@
 ## Makefile
 ##
 
-CC	=	gcc
+NAME = dante
 
-all: gen solv
+all:	$(NAME)
 
-gen:
-	$(MAKE) -C ./generator/ -o generator
-	$(CC) -o ./generator/generator $(patsubst %.c, %.o, $(wildcard ./generator/*.c))
-
-solv:
-	$(MAKE) -C ./solver/ -o solver
-	$(CC) -o ./solver/solver $(patsubst %.c, %.o, $(wildcard ./solver/*.c))
+$(NAME):
+	$(MAKE)	-C	generator/
+	$(MAKE)	-C	solver/
 
 clean:
-	find -name "*.o" -delete
+	$(MAKE)	clean	-C	generator/
+	$(MAKE)	clean	-C	solver/
 
-fclean: clean
-	rm -fr ./generator/generator ./solver/solver
+fclean:
+	$(MAKE)	fclean	-C	generator/
+	$(MAKE)	fclean	-C	solver/
 
-re: fclean all
+re:	fclean	all
 
-.PHONY: all clean fclean re gen solv
+tests_run:
+	$(MAKE)	tests_run	-C	generator/
+	$(MAKE)	tests_run	-C	solver/
+
+tests_clean:
+	$(MAKE)	tests_clean	-C	generator/
+	$(MAKE)	tests_clean	-C	solver/
+
+.PHONY: all $(NAME) clean fclean re tests_run

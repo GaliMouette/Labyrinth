@@ -5,7 +5,7 @@
 ** linked_list.c
 */
 
-#include "linked_list.h"
+#include "include/linked_list.h"
 #include <stdlib.h>
 
 path_t *add_element(path_t *path, int y, int x)

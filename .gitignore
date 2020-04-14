@@ -3,4 +3,6 @@ vgcore.*
 generator/generator
 solver/solver
 maze
+wrong_char_maze
 solve
+*.gc*

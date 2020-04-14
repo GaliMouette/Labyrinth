@@ -5,7 +5,7 @@
 ** make_way.c
 */
 
-#include "linked_list.h"
+#include "include/linked_list.h"
 
 void display_maze(char **maze, int size_y, int size_x)
 {
